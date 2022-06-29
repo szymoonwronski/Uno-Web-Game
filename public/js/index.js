@@ -53,8 +53,6 @@ createLobbyButton.onclick = () => {
 }
 
 joinLobbyButton.onclick = () => {
-    divScreen1.style.display = 'none'
-    divScreen2.style.display = 'block'
     lobbyCode = joinLobbyInput.value
     nickname = playerNicknameInput.value
     socket.emit('join lobby', lobbyCode, nickname)
@@ -70,6 +68,8 @@ startGameButton.onclick = () => {
 }
 
 socket.on('send lobby code', code => {
+    divScreen1.style.display = 'none'
+    divScreen2.style.display = 'block'
     lobbyCode = code
     showLobbyCode.innerHTML += lobbyCode
 })

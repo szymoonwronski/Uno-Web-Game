@@ -30,6 +30,7 @@ io.on('connection', socket => {
         else {
             socket.join(lobbyCode)
             gameStates[lobbyCode].nicknames[socket.id] = nickname
+            socket.emit('send lobby code', lobbyCode)
             console.log(`user ${socket.id} joined lobby: ${lobbyCode}`)
         }
     })
