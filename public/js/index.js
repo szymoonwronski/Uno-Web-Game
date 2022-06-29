@@ -4,6 +4,9 @@ const divPreGame = document.getElementById('pre-game')
 const divMainGame = document.getElementById('main-game')
 const divPostGame = document.getElementById('post-game')
 
+const divScreen1 = document.getElementById('screen1')
+const divScreen2 = document.getElementById('screen2')
+
 const settingsSevenZero = document.getElementById('create-lobby-settings-seven-zero')
 const settingsStackingCards = document.getElementById('create-lobby-settings-stackingcards')
 const settingsJumpIn = document.getElementById('create-lobby-settings-jumpin')
@@ -43,11 +46,15 @@ drawCardButton.onclick = () => {
 }
 
 createLobbyButton.onclick = () => {
+    divScreen1.style.display = 'none'
+    divScreen2.style.display = 'block'
     nickname = playerNicknameInput.value
     socket.emit('create lobby', nickname)
 }
 
 joinLobbyButton.onclick = () => {
+    divScreen1.style.display = 'none'
+    divScreen2.style.display = 'block'
     lobbyCode = joinLobbyInput.value
     nickname = playerNicknameInput.value
     socket.emit('join lobby', lobbyCode, nickname)
