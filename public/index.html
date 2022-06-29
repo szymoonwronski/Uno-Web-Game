@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uno!</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    
+</head>
+
+<body>
+    <div id="pre-game" class="container">
+        <h1 id="uno-title">Uno!</h1>
+        <div id="screen1">
+            <input type="text" id="player-nickname-input" placeholder="Enter your nickname">
+            <div id="joining-inputs">
+                <input type="text" id="join-lobby-input" placeholder="Enter code">
+                <input type="button" id="join-lobby-button" value="Join lobby">
+            </div>
+            <input type="button" id="create-lobby-button" value="Create lobby">
+        </div>
+        <div id="screen2">
+            <span>
+                <h1>Settings</h1>
+            </span>
+            <label for="create-lobby-settings-seven-zero">Special seven</label>
+            <input type="checkbox" id="create-lobby-settings-seven-zero">
+            <label for="create-lobby-settings-stackingcards">Stacking cards</label>
+            <input type="checkbox" id="create-lobby-settings-stackingcards">
+            <label for="create-lobby-settings-jumpin">Jump in</label>
+            <input type="checkbox" id="create-lobby-settings-jumpin">
+            <input type="button" id="start-game-button" value="Start game">
+            <span>
+                <h1>Players</h1>
+            </span>
+            <span id="show-lobby-code">Lobby code: </span>
+        </div>
+    </div>
+    <div id="main-game" class="container">
+        <input type="button" id="draw-card-button" value="Draw">
+        <input type="button" id="call-uno-button" value="Call Uno!">
+        <input type="button" id="challenge-uno-button" value="Challenge Uno!">
+    </div>
+    <div id="post-game" class="container">
+        <input type="button" id="play-again-button" value="Play again">
+    </div>
+
+    <script src="socket.io/socket.io.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>

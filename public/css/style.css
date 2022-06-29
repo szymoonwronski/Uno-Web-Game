@@ -1,0 +1,85 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-image: url("/images/background.jpg");
+    color: white;
+    font-family: 'Pacifico', cursive;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+#uno-title {
+    display: block;
+    text-align: center;
+    font-size: 80px;
+    margin: 40px;
+}
+
+#screen1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type="text"] {
+    border: none;
+    border-radius: 5px;
+}
+
+#joining-inputs {
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#join-lobby-button {
+    font-size: 30px;
+}
+
+#join-lobby-input {
+    font-size: 12px;
+    text-align: center;
+}
+
+#player-nickname-input {
+    font-size: 20px;
+    margin: 20px 0 40px 0;
+    text-align: center;
+    padding: 5px;
+    width: 250px;
+    box-sizing: border-box;
+}
+
+#create-lobby-button {
+    width: 250px;
+    font-size: 30px;
+}
+
+input:focus {
+    outline: none;
+}
+
+#screen2 {
+    display: none;
+}
+
+#main-game {
+    display: none;
+}
+
+#post-game {
+    display: none;
+}
+
+#call-uno-button, #challenge-uno-button, #play-again-button {
+    display: none;
+}
+
+.card {
+    width: 40px;
+    height: 60px;
+}

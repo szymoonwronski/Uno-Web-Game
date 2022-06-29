@@ -1,0 +1,450 @@
+{
+    "host": "",
+    "numberOfPlayers": "",
+    "turn": "",
+    "nicknames": {},
+    "direction": "1",
+    "discardPile": [],
+    "deckCards": [
+        {
+            "color": "red",
+            "symbol": "0"
+        },
+        {
+            "color": "red",
+            "symbol": "1"
+        },
+        {
+            "color": "red",
+            "symbol": "2"
+        },
+        {
+            "color": "red",
+            "symbol": "3"
+        },
+        {
+            "color": "red",
+            "symbol": "4"
+        },
+        {
+            "color": "red",
+            "symbol": "5"
+        },
+        {
+            "color": "red",
+            "symbol": "6"
+        },
+        {
+            "color": "red",
+            "symbol": "7"
+        },
+        {
+            "color": "red",
+            "symbol": "8"
+        },
+        {
+            "color": "red",
+            "symbol": "9"
+        },
+        {
+            "color": "red",
+            "symbol": "1"
+        },
+        {
+            "color": "red",
+            "symbol": "2"
+        },
+        {
+            "color": "red",
+            "symbol": "3"
+        },
+        {
+            "color": "red",
+            "symbol": "4"
+        },
+        {
+            "color": "red",
+            "symbol": "5"
+        },
+        {
+            "color": "red",
+            "symbol": "6"
+        },
+        {
+            "color": "red",
+            "symbol": "7"
+        },
+        {
+            "color": "red",
+            "symbol": "8"
+        },
+        {
+            "color": "red",
+            "symbol": "9"
+        },
+        {
+            "color": "yellow",
+            "symbol": "0"
+        },
+        {
+            "color": "yellow",
+            "symbol": "1"
+        },
+        {
+            "color": "yellow",
+            "symbol": "2"
+        },
+        {
+            "color": "yellow",
+            "symbol": "3"
+        },
+        {
+            "color": "yellow",
+            "symbol": "4"
+        },
+        {
+            "color": "yellow",
+            "symbol": "5"
+        },
+        {
+            "color": "yellow",
+            "symbol": "6"
+        },
+        {
+            "color": "yellow",
+            "symbol": "7"
+        },
+        {
+            "color": "yellow",
+            "symbol": "8"
+        },
+        {
+            "color": "yellow",
+            "symbol": "9"
+        },
+        {
+            "color": "yellow",
+            "symbol": "1"
+        },
+        {
+            "color": "yellow",
+            "symbol": "2"
+        },
+        {
+            "color": "yellow",
+            "symbol": "3"
+        },
+        {
+            "color": "yellow",
+            "symbol": "4"
+        },
+        {
+            "color": "yellow",
+            "symbol": "5"
+        },
+        {
+            "color": "yellow",
+            "symbol": "6"
+        },
+        {
+            "color": "yellow",
+            "symbol": "7"
+        },
+        {
+            "color": "yellow",
+            "symbol": "8"
+        },
+        {
+            "color": "yellow",
+            "symbol": "9"
+        },
+        {
+            "color": "green",
+            "symbol": "0"
+        },
+        {
+            "color": "green",
+            "symbol": "1"
+        },
+        {
+            "color": "green",
+            "symbol": "2"
+        },
+        {
+            "color": "green",
+            "symbol": "3"
+        },
+        {
+            "color": "green",
+            "symbol": "4"
+        },
+        {
+            "color": "green",
+            "symbol": "5"
+        },
+        {
+            "color": "green",
+            "symbol": "6"
+        },
+        {
+            "color": "green",
+            "symbol": "7"
+        },
+        {
+            "color": "green",
+            "symbol": "8"
+        },
+        {
+            "color": "green",
+            "symbol": "9"
+        },
+        {
+            "color": "green",
+            "symbol": "1"
+        },
+        {
+            "color": "green",
+            "symbol": "2"
+        },
+        {
+            "color": "green",
+            "symbol": "3"
+        },
+        {
+            "color": "green",
+            "symbol": "4"
+        },
+        {
+            "color": "green",
+            "symbol": "5"
+        },
+        {
+            "color": "green",
+            "symbol": "6"
+        },
+        {
+            "color": "green",
+            "symbol": "7"
+        },
+        {
+            "color": "green",
+            "symbol": "8"
+        },
+        {
+            "color": "green",
+            "symbol": "9"
+        },
+        {
+            "color": "blue",
+            "symbol": "0"
+        },
+        {
+            "color": "blue",
+            "symbol": "1"
+        },
+        {
+            "color": "blue",
+            "symbol": "2"
+        },
+        {
+            "color": "blue",
+            "symbol": "3"
+        },
+        {
+            "color": "blue",
+            "symbol": "4"
+        },
+        {
+            "color": "blue",
+            "symbol": "5"
+        },
+        {
+            "color": "blue",
+            "symbol": "6"
+        },
+        {
+            "color": "blue",
+            "symbol": "7"
+        },
+        {
+            "color": "blue",
+            "symbol": "8"
+        },
+        {
+            "color": "blue",
+            "symbol": "9"
+        },
+        {
+            "color": "blue",
+            "symbol": "1"
+        },
+        {
+            "color": "blue",
+            "symbol": "2"
+        },
+        {
+            "color": "blue",
+            "symbol": "3"
+        },
+        {
+            "color": "blue",
+            "symbol": "4"
+        },
+        {
+            "color": "blue",
+            "symbol": "5"
+        },
+        {
+            "color": "blue",
+            "symbol": "6"
+        },
+        {
+            "color": "blue",
+            "symbol": "7"
+        },
+        {
+            "color": "blue",
+            "symbol": "8"
+        },
+        {
+            "color": "blue",
+            "symbol": "9"
+        },
+        {
+            "color": "red",
+            "symbol": "draw"
+        },
+        {
+            "color": "red",
+            "symbol": "draw"
+        },
+        {
+            "color": "red",
+            "symbol": "skip"
+        },
+        {
+            "color": "red",
+            "symbol": "skip"
+        },
+        {
+            "color": "red",
+            "symbol": "reverse"
+        },
+        {
+            "color": "red",
+            "symbol": "reverse"
+        },
+        {
+            "color": "yellow",
+            "symbol": "draw"
+        },
+        {
+            "color": "yellow",
+            "symbol": "draw"
+        },
+        {
+            "color": "yellow",
+            "symbol": "skip"
+        },
+        {
+            "color": "yellow",
+            "symbol": "skip"
+        },
+        {
+            "color": "yellow",
+            "symbol": "reverse"
+        },
+        {
+            "color": "yellow",
+            "symbol": "reverse"
+        },
+        {
+            "color": "green",
+            "symbol": "draw"
+        },
+        {
+            "color": "green",
+            "symbol": "draw"
+        },
+        {
+            "color": "green",
+            "symbol": "skip"
+        },
+        {
+            "color": "green",
+            "symbol": "skip"
+        },
+        {
+            "color": "green",
+            "symbol": "reverse"
+        },
+        {
+            "color": "green",
+            "symbol": "reverse"
+        },
+        {
+            "color": "blue",
+            "symbol": "draw"
+        },
+        {
+            "color": "blue",
+            "symbol": "draw"
+        },
+        {
+            "color": "blue",
+            "symbol": "skip"
+        },
+        {
+            "color": "blue",
+            "symbol": "skip"
+        },
+        {
+            "color": "blue",
+            "symbol": "reverse"
+        },
+        {
+            "color": "blue",
+            "symbol": "reverse"
+        },
+        {
+            "color": "",
+            "symbol": "wild"
+        },
+        {
+            "color": "",
+            "symbol": "wild"
+        },
+        {
+            "color": "",
+            "symbol": "wild"
+        },
+        {
+            "color": "",
+            "symbol": "wild"
+        },
+        {
+            "color": "",
+            "symbol": "wilddraw"
+        },
+        {
+            "color": "",
+            "symbol": "wilddraw"
+        },
+        {
+            "color": "",
+            "symbol": "wilddraw"
+        },
+        {
+            "color": "",
+            "symbol": "wilddraw"
+        }
+    ],
+    "playersCards": {},
+    "playersUnos": {},
+    "penalty": "0",
+    "specialRules": {
+        "sevenZero": false,
+        "stackingCards": false,
+        "jumpIn": false
+    }
+}
