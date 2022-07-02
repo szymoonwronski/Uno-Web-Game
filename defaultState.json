@@ -4,6 +4,8 @@
     "turn": "",
     "nicknames": {},
     "direction": "1",
+    "penalty": "0",
+    "playersCards": {},
     "discardPile": [],
     "deckCards": [
         {
@@ -439,9 +441,7 @@
             "symbol": "wilddraw"
         }
     ],
-    "playersCards": {},
     "playersUnos": {},
-    "penalty": "0",
     "specialRules": {
         "sevenZero": false,
         "stackingCards": false,

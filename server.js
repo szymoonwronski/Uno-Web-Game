@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 const _ = require('lodash')
 const http = require('http')
 const express = require('express')
@@ -9,7 +10,7 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server)
 
-const defaultState = (require('./defaultState.json'))
+const defaultState = require('./defaultState.json')
 
 const PORT = 5555
 const lobbyCodeLength = 5
@@ -81,7 +82,7 @@ io.on('connection', socket => {
             else {
                 gameStates[lobbyCode].playersCards[socket.id].push(gameStates[lobbyCode].deckCards.shift())
             }
-            socket.emit('cards update', gameStates[lobbyCode].playersCards[socket.id])
+            socket.emit('cards update', gameStates[lobbyCode].playersCards[socket.id], isMovePossible(gameStates[lobbyCode].playersCards[socket.id][gameStates[lobbyCode].playersCards[socket.id].length - 1]))
             nextTurn(lobbyCode)
             gameUpdate(lobbyCode)
         }
@@ -167,9 +168,12 @@ function gameUpdate(lobbyCode) {
         turn: Object.keys(gameStates[lobbyCode].nicknames).indexOf(gameStates[lobbyCode].turn),
         numberOfPlayersCards: numberOfPlayersCards,
         playersUnos: Object.values(gameStates[lobbyCode].playersUnos),
-        discardPile: gameStates[lobbyCode].discardPile[gameStates[lobbyCode].discardPile.length - 1]
+        discardPile: gameStates[lobbyCode].discardPile[gameStates[lobbyCode].discardPile.length - 1],
+        isPenalty: gameStates[lobbyCode].penalty > 0 ? true : false
     }
     io.to(lobbyCode).emit('game update', gameInfo)
+
+    console.log(gameStates);
 }
 
 function isTurn(lobbyCode, socketId) {
@@ -195,6 +199,10 @@ function initGameState(lobbyCode, hostId) {
 function createGameState(lobbyCode, lobbySettings) {
     var newState = gameStates[lobbyCode]
     newState.numberOfPlayers = io.sockets.adapter.rooms.get(lobbyCode).size
+    newState.deckCards = JSON.parse(JSON.stringify(defaultState.deckCards))
+    newState.discardPile = []
+    newState.direction = 1
+    newState.penalty = 0
     newState.specialRules.sevenZero = lobbySettings.sevenZero
     newState.specialRules.stackingCards = lobbySettings.stackingCards
     newState.specialRules.jumpIn = lobbySettings.jumpIn
@@ -215,4 +223,4 @@ function createLobbyCode(length) {
     return result
 }
 
-const mod = (n, m) => (n % m + m) % m;
+const mod = (n, m) => (n % m + m) % m

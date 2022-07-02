@@ -23,14 +23,14 @@ const challengeUnoButton = document.getElementById('challenge-uno-button')
 
 const playAgainButton = document.getElementById('play-again-button')
 
-let lobbyCode
-let nickname
-let nicknameId
-let myCards
-let gameInfo
-let gameSettings
-let nicknames
-let playersListSpans
+let lobbyCode // code of the game
+let nickname // visible nickname of this user
+let nicknames // array of users nicknames in lobby
+let nicknameId // id of this user in "nicknames" array
+let gameInfo // all of the information of the game
+let gameSettings // settings of current game - rules
+let myCards // array of this user cards
+let playersListSpans // array of spans where nicknames are visible
 
 playAgainButton.onclick = () => {
     socket.emit('play again', lobbyCode)
@@ -110,8 +110,7 @@ socket.on('game update', info => {
     callUnoButton.style.display = 'none'
     if(myCards.length == 1 && gameInfo.playersUnos[nicknameId] == true) callUnoButton.style.display = 'block'
 
-    showCards()
-    showPlayers()
+    showEverything()
 })
 
 socket.on('reset all', () => {
@@ -124,6 +123,11 @@ socket.on('game over', (winner, makePlayAgainButtonVisible) => {
     divPostGame.style.display = 'block'
     if(makePlayAgainButtonVisible) playAgainButton.style.display = 'block'
 })
+
+function showEverything() {
+    showCards()
+    showPlayers()
+}
 
 function showCards() {
     const myCardsButtons = Array.from(document.getElementsByClassName('card'))
