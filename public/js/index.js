@@ -90,8 +90,28 @@ socket.on('game started', (nicks, settings, nickId)  => {
     }
 })
 
-socket.on('cards update', cards => {
+socket.on('cards update', (cards, isDrawnCardPossibleToPlay) => {
+    const drawnCardButtons = Array.from(document.getElementsByClassName('drawn-card-option'))
+    drawnCardButtons.forEach(element => element.remove())
     myCards = cards
+    if(isDrawnCardPossibleToPlay) {
+        let keepCardButton = document.createElement('input')
+        let playCardButton = document.createElement('input')
+        keepCardButton.type = 'button'
+        playCardButton.type = 'button'
+        keepCardButton.value = 'Keep'
+        playCardButton.value = 'Play'
+        keepCardButton.classList.add('drawn-card-option')
+        playCardButton.classList.add('drawn-card-option')
+        divMainGame.appendChild(keepCardButton);
+        divMainGame.appendChild(playCardButton);
+        keepCardButton.onclick = () => {
+            socket.emit('drawn card option', lobbyCode, false)
+        }
+        playCardButton.onclick = () => {
+            socket.emit('drawn card option', lobbyCode, true)
+        }
+    }
 })
 
 socket.on('game update', info => {
