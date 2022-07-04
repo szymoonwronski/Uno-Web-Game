@@ -38,7 +38,11 @@ io.on('connection', socket => {
     })
 
     socket.on('create lobby', nickname => {
-        const lobbyCode = createLobbyCode(lobbyCodeLength)
+        let x
+        do {
+            x = createLobbyCode(lobbyCodeLength)
+        } while(gameStates.hasOwnProperty(x))
+        const lobbyCode = x
         initGameState(lobbyCode, socket.id)
         gameStates[lobbyCode].nicknames[socket.id] = nickname
 
