@@ -16,6 +16,9 @@ const joinLobbyInput = document.getElementById('join-lobby-input')
 const joinLobbyButton = document.getElementById('join-lobby-button')
 const startGameButton = document.getElementById('start-game-button')
 const showLobbyCode = document.getElementById('show-lobby-code')
+const copyLobbyCodeButton = document.getElementById('copy-lobby-code-button')
+
+const divScreen2RightPanel = document.getElementById('right-panel')
 
 const drawCardButton = document.getElementById('draw-card-button')
 const callUnoButton = document.getElementById('call-uno-button')
@@ -32,6 +35,10 @@ let gameSettings // settings of current game - rules
 let myCards // array of this user cards
 let playersListSpans // array of spans where nicknames are visible
 
+copyLobbyCodeButton.onclick = () => {
+    navigator.clipboard.writeText(showLobbyCode.innerHTML);
+}
+
 playAgainButton.onclick = () => {
     socket.emit('play again', lobbyCode)
     socket.emit('start game', lobbyCode, gameSettings)
@@ -46,16 +53,21 @@ drawCardButton.onclick = () => {
 }
 
 createLobbyButton.onclick = () => {
-    divScreen1.style.display = 'none'
-    divScreen2.style.display = 'block'
     nickname = playerNicknameInput.value
-    socket.emit('create lobby', nickname)
+    if(nickname !== "") {
+        socket.emit('create lobby', nickname)
+        divScreen1.style.display = 'none'
+        divScreen2.style.display = 'flex'
+        startGameButton.style.display = 'block'
+    }
 }
 
 joinLobbyButton.onclick = () => {
-    lobbyCode = joinLobbyInput.value
     nickname = playerNicknameInput.value
-    socket.emit('join lobby', lobbyCode, nickname)
+    if(nickname !== "") {
+        lobbyCode = joinLobbyInput.value
+        socket.emit('join lobby', lobbyCode, nickname)
+    }
 }
 
 startGameButton.onclick = () => {
@@ -68,10 +80,23 @@ startGameButton.onclick = () => {
 }
 
 socket.on('send lobby code', code => {
-    divScreen1.style.display = 'none'
-    divScreen2.style.display = 'block'
     lobbyCode = code
     showLobbyCode.innerHTML += lobbyCode
+    divScreen1.style.display = 'none'
+    divScreen2.style.display = 'flex'
+})
+
+socket.on('update players list', nicks => {
+    const arr = Array.from(document.getElementsByClassName('span-player-list'))
+    arr.forEach(element => element.remove())
+    nicknames = nicks;
+    nicknames.forEach(nick => {
+        let span = document.createElement('span')
+        span.innerHTML = nick
+        span.classList.add('create-lobby-settings-element', 'span-player-list')
+        divScreen2RightPanel.appendChild(span)
+    })
+    Array.from(document.getElementsByClassName('span-player-list'))[0].innerHTML += ' 👑'
 })
 
 socket.on('game started', (nicks, settings, nickId)  => {

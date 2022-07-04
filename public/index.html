@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FF7A00">
     <title>Uno!</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,600,0,200" />
 
     <link rel="stylesheet" href="css/style.css">
     
@@ -18,29 +20,49 @@
 <body>
     <div id="pre-game" class="container">
         <h1 id="uno-title">Uno!</h1>
-        <div id="screen1">
+        <form id="screen1">
             <input type="text" id="player-nickname-input" placeholder="Enter your nickname">
             <div id="joining-inputs">
-                <input type="text" id="join-lobby-input" placeholder="Enter code">
+                <input type="text" id="join-lobby-input" placeholder="Enter game code">
                 <input type="button" id="join-lobby-button" value="Join lobby">
             </div>
             <input type="button" id="create-lobby-button" value="Create lobby">
-        </div>
+        </form>
         <div id="screen2">
-            <span>
-                <h1>Settings</h1>
-            </span>
-            <label for="create-lobby-settings-seven-zero">Special seven-zero</label>
-            <input type="checkbox" id="create-lobby-settings-seven-zero">
-            <label for="create-lobby-settings-stackingcards">Stacking cards</label>
-            <input type="checkbox" id="create-lobby-settings-stackingcards">
-            <label for="create-lobby-settings-jumpin">Jump in</label>
-            <input type="checkbox" id="create-lobby-settings-jumpin">
-            <input type="button" id="start-game-button" value="Start game">
-            <span>
-                <h1>Players</h1>
-            </span>
-            <span id="show-lobby-code">Lobby code: </span>
+            <div id="panels-container">
+                <div id="left-panel">
+                    <span>
+                        <h1 class="panel-header">Settings</h1>
+                    </span>
+                    <div class="create-lobby-settings-element">
+                        <label for="create-lobby-settings-seven-zero">Special seven-zero</label>
+                        <input type="checkbox" id="create-lobby-settings-seven-zero">
+                    </div>
+                    <div class="create-lobby-settings-element">
+                        <label for="create-lobby-settings-stackingcards">Stacking cards</label>
+                        <input type="checkbox" id="create-lobby-settings-stackingcards">
+                    </div>
+                    <div class="create-lobby-settings-element">
+                        <label for="create-lobby-settings-jumpin">Jump in</label>
+                        <input type="checkbox" id="create-lobby-settings-jumpin">
+                    </div>
+                </div>
+                <div id="right-panel">
+                    <span>
+                        <h1 class="panel-header">Players</h1>
+                    </span>
+                </div>
+            </div>
+            <div id="button-and-code-container">
+                <input type="button" id="start-game-button" value="Start game">
+                <div id="lobby-code-stuff">
+                    <span id="show-lobby-code-label">Lobby code: </span>
+                    <span id="show-lobby-code"></span>
+                    <button id="copy-lobby-code-button" class="material-symbols-outlined">
+                        content_copy
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
     <div id="main-game" class="container">

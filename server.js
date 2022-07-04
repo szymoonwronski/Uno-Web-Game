@@ -13,7 +13,7 @@ const io = new Server(server)
 const defaultState = require('./defaultState.json')
 
 const PORT = 5555
-const lobbyCodeLength = 5
+const lobbyCodeLength = 8
 const maxNumberOfPlayers = 4
 
 let gameStates = {}
@@ -31,6 +31,7 @@ io.on('connection', socket => {
         else {
             socket.join(lobbyCode)
             gameStates[lobbyCode].nicknames[socket.id] = nickname
+            io.to(lobbyCode).emit('update players list', Object.values(gameStates[lobbyCode].nicknames))
             socket.emit('send lobby code', lobbyCode)
             console.log(`user ${socket.id} joined lobby: ${lobbyCode}`)
         }
@@ -44,6 +45,7 @@ io.on('connection', socket => {
         console.log(`user ${socket.id} created lobby: ${lobbyCode}`)
         
         socket.join(lobbyCode)
+        socket.emit('update players list', Object.values(gameStates[lobbyCode].nicknames))
         socket.emit('send lobby code', lobbyCode)
     })
 
@@ -95,7 +97,6 @@ io.on('connection', socket => {
             }
             else {
                 socket.emit('cards update', gameStates[lobbyCode].playersCards[socket.id], false)
-                cardEffect(lobbyCode)
                 nextTurn(lobbyCode)
                 gameUpdate(lobbyCode)
             }
@@ -206,8 +207,6 @@ function gameUpdate(lobbyCode) {
         isPenalty: gameStates[lobbyCode].penalty > 0 ? true : false
     }
     io.to(lobbyCode).emit('game update', gameInfo)
-
-    console.log(gameStates);
 }
 
 function isTurn(lobbyCode, socketId) {
