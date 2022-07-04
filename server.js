@@ -81,15 +81,27 @@ io.on('connection', socket => {
                 for(let i = 0; i < gameStates[lobbyCode].discardPile.length - 1; i++) {
                     gameStates[lobbyCode].deckCards.push(gameStates[lobbyCode].discardPile.shift())
                 }
-                if(gameStates[lobbyCode].deckCards.length) {
-                    gameStates[lobbyCode].playersCards[socket.id].push(gameStates[lobbyCode].deckCards.shift())
-                }
             }
-            else {
+            if(gameStates[lobbyCode].deckCards.length) {
                 gameStates[lobbyCode].playersCards[socket.id].push(gameStates[lobbyCode].deckCards.shift())
             }
             socket.emit('cards update', gameStates[lobbyCode].playersCards[socket.id], isMovePossible(gameStates[lobbyCode].playersCards[socket.id][gameStates[lobbyCode].playersCards[socket.id].length - 1]))
-            if(!isMovePossible(gameStates[lobbyCode].playersCards[socket.id][gameStates[lobbyCode].playersCards[socket.id].length - 1])) nextTurn(lobbyCode)
+            if(!isMovePossible(gameStates[lobbyCode].playersCards[socket.id][gameStates[lobbyCode].playersCards[socket.id].length - 1])) {
+                if(gameStates[lobbyCode].penalty > 0) {
+                    while(--gameStates[lobbyCode].penalty > 0) {
+                        if(!gameStates[lobbyCode].deckCards.length) {
+                            for(let i = 0; i < gameStates[lobbyCode].discardPile.length - 1; i++) {
+                                gameStates[lobbyCode].deckCards.push(gameStates[lobbyCode].discardPile.shift())
+                            }
+                        }
+                        if(gameStates[lobbyCode].deckCards.length) {
+                            gameStates[lobbyCode].playersCards[socket.id].push(gameStates[lobbyCode].deckCards.shift())
+                        }
+                    }
+                }
+                gameStates[lobbyCode].penalty = 0
+                nextTurn(lobbyCode)
+            }
             gameUpdate(lobbyCode)
         }
     })
@@ -100,6 +112,19 @@ io.on('connection', socket => {
                 playCardHandler(socket, lobbyCode, gameStates[lobbyCode].playersCards[socket.id].length - 1, optionalColor)
             }
             else {
+                if(gameStates[lobbyCode].penalty > 0) {
+                    while(--gameStates[lobbyCode].penalty > 0) {
+                        if(!gameStates[lobbyCode].deckCards.length) {
+                            for(let i = 0; i < gameStates[lobbyCode].discardPile.length - 1; i++) {
+                                gameStates[lobbyCode].deckCards.push(gameStates[lobbyCode].discardPile.shift())
+                            }
+                        }
+                        if(gameStates[lobbyCode].deckCards.length) {
+                            gameStates[lobbyCode].playersCards[socket.id].push(gameStates[lobbyCode].deckCards.shift())
+                        }
+                    }
+                }
+                gameStates[lobbyCode].penalty = 0
                 socket.emit('cards update', gameStates[lobbyCode].playersCards[socket.id], false)
                 nextTurn(lobbyCode)
                 gameUpdate(lobbyCode)
