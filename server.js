@@ -156,6 +156,15 @@ io.on('connection', socket => {
         io.to(lobbyCode).emit('reset all')
     })
 
+    socket.on('disconnecting', () => {
+        socket.rooms.forEach(room => {
+            if (gameStates.hasOwnProperty(room)) {
+                io.to(room).emit('update players list', Object.values(gameStates[room].nicknames).filter(item => item !== gameStates[room].nicknames[socket.id]))
+                delete gameStates[room].nicknames[socket.id]
+            }
+        })
+    })
+
     socket.on('disconnect', () => console.log(`disconnected: ${socket.id}`))
 })
 
