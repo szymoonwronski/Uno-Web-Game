@@ -12,7 +12,7 @@ const io = new Server(server)
 
 const defaultState = require('./defaultState.json')
 
-const PORT = 5555 || process.env.PORT
+const PORT = process.env.PORT || 5555
 const lobbyCodeLength = 8
 const maxNumberOfPlayers = 4
 
