@@ -214,6 +214,10 @@ input[type="checkbox"]:checked::before{
     display: none;
 }
 
+.drawn-card-option {
+    display: none;
+}
+
 #post-game {
     display: none;
 }

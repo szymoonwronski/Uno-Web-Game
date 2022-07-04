@@ -3,10 +3,10 @@ const socket = io()
 const divPreGame = document.getElementById('pre-game')
 const divMainGame = document.getElementById('main-game')
 const divPostGame = document.getElementById('post-game')
-
 const divScreen1 = document.getElementById('screen1')
 const divScreen2 = document.getElementById('screen2')
 
+//pre-game
 const settingsSevenZero = document.getElementById('create-lobby-settings-seven-zero')
 const settingsStackingCards = document.getElementById('create-lobby-settings-stackingcards')
 const settingsJumpIn = document.getElementById('create-lobby-settings-jumpin')
@@ -14,16 +14,19 @@ const playerNicknameInput = document.getElementById('player-nickname-input')
 const createLobbyButton = document.getElementById('create-lobby-button')
 const joinLobbyInput = document.getElementById('join-lobby-input')
 const joinLobbyButton = document.getElementById('join-lobby-button')
+const divScreen2RightPanel = document.getElementById('right-panel')
 const startGameButton = document.getElementById('start-game-button')
 const showLobbyCode = document.getElementById('show-lobby-code')
 const copyLobbyCodeButton = document.getElementById('copy-lobby-code-button')
 
-const divScreen2RightPanel = document.getElementById('right-panel')
-
+//main-game
 const drawCardButton = document.getElementById('draw-card-button')
 const callUnoButton = document.getElementById('call-uno-button')
 const challengeUnoButton = document.getElementById('challenge-uno-button')
+const playCardButton = document.getElementById('play-card-button')
+const keepCardButton = document.getElementById('keep-card-button')
 
+//post-game
 const playAgainButton = document.getElementById('play-again-button')
 
 let lobbyCode // code of the game
@@ -34,6 +37,14 @@ let gameInfo // all of the information of the game
 let gameSettings // settings of current game - rules
 let myCards // array of this user cards
 let playersListSpans // array of spans where nicknames are visible
+
+playCardButton.onclick = () => {
+    socket.emit('drawn card option', lobbyCode, true)
+}
+
+keepCardButton.onclick = () => {
+    socket.emit('drawn card option', lobbyCode, false)
+}
 
 copyLobbyCodeButton.onclick = () => {
     navigator.clipboard.writeText(showLobbyCode.innerHTML);
@@ -116,26 +127,14 @@ socket.on('game started', (nicks, settings, nickId)  => {
 })
 
 socket.on('cards update', (cards, isDrawnCardPossibleToPlay) => {
-    const drawnCardButtons = Array.from(document.getElementsByClassName('drawn-card-option'))
-    drawnCardButtons.forEach(element => element.remove())
     myCards = cards
     if(isDrawnCardPossibleToPlay) {
-        let keepCardButton = document.createElement('input')
-        let playCardButton = document.createElement('input')
-        keepCardButton.type = 'button'
-        playCardButton.type = 'button'
-        keepCardButton.value = 'Keep'
-        playCardButton.value = 'Play'
-        keepCardButton.classList.add('drawn-card-option')
-        playCardButton.classList.add('drawn-card-option')
-        divMainGame.appendChild(keepCardButton);
-        divMainGame.appendChild(playCardButton);
-        keepCardButton.onclick = () => {
-            socket.emit('drawn card option', lobbyCode, false)
-        }
-        playCardButton.onclick = () => {
-            socket.emit('drawn card option', lobbyCode, true)
-        }
+        playCardButton.style.display = 'inline'
+        keepCardButton.style.display = 'inline'
+    }
+    else {
+        keepCardButton.style.display = 'none'
+        playCardButton.style.display = 'none'
     }
 })
 

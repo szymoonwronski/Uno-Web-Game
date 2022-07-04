@@ -110,7 +110,7 @@ io.on('connection', socket => {
     socket.on('play card', (lobbyCode, i, optionalColor) => {
         if(isTurn(lobbyCode, socket.id)) {
             if(isMovePossible(gameStates[lobbyCode].playersCards[socket.id][i])) {
-                if(gameStates[lobbyCode].playersCards[socket.id][i].symbol == "draw" || gameStates[lobbyCode].playersCards[socket.id][i].symbol == "wilddraw") gameStates[lobbyCode].playersCards[socket.id][i].color = optionalColor
+                if(gameStates[lobbyCode].playersCards[socket.id][i].symbol == "wild" || gameStates[lobbyCode].playersCards[socket.id][i].symbol == "wilddraw") gameStates[lobbyCode].playersCards[socket.id][i].color = optionalColor
                 gameStates[lobbyCode].discardPile.push(gameStates[lobbyCode].playersCards[socket.id][i])
                 gameStates[lobbyCode].playersCards[socket.id].splice(i, 1)
                 socket.emit('cards update', gameStates[lobbyCode].playersCards[socket.id], false)
@@ -186,7 +186,7 @@ function cardEffect(lobbyCode) {
 function playCardHandler(someSocket, lobbyCode, i, optionalColor) {
     if(isTurn(lobbyCode, someSocket.id)) {
         if(isMovePossible(gameStates[lobbyCode].playersCards[someSocket.id][i])) {
-            if(gameStates[lobbyCode].playersCards[someSocket.id][i].symbol == "draw" || gameStates[lobbyCode].playersCards[someSocket.id][i].symbol == "wilddraw") gameStates[lobbyCode].playersCards[someSocket.id][i].color = optionalColor
+            if(gameStates[lobbyCode].playersCards[someSocket.id][i].symbol == "wild" || gameStates[lobbyCode].playersCards[someSocket.id][i].symbol == "wilddraw") gameStates[lobbyCode].playersCards[someSocket.id][i].color = optionalColor
             gameStates[lobbyCode].discardPile.push(gameStates[lobbyCode].playersCards[someSocket.id][i])
             gameStates[lobbyCode].playersCards[someSocket.id].splice(i, 1)
             someSocket.emit('cards update', gameStates[lobbyCode].playersCards[someSocket.id], false)
