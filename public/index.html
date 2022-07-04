@@ -21,7 +21,7 @@
     <div id="pre-game" class="container">
         <h1 id="uno-title">Uno!</h1>
         <form id="screen1">
-            <input type="text" id="player-nickname-input" placeholder="Enter your nickname">
+            <input type="text" id="player-nickname-input" placeholder="Enter your nickname" maxlength="25">
             <div id="joining-inputs">
                 <input type="text" id="join-lobby-input" placeholder="Enter game code">
                 <input type="button" id="join-lobby-button" value="Join lobby">
@@ -56,7 +56,7 @@
             <div id="button-and-code-container">
                 <input type="button" id="start-game-button" value="Start game">
                 <div id="lobby-code-stuff">
-                    <span id="show-lobby-code-label">Lobby code: </span>
+                    <span id="show-lobby-code-label">Lobby code:</span>
                     <span id="show-lobby-code"></span>
                     <button id="copy-lobby-code-button" class="material-symbols-outlined">
                         content_copy
