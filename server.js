@@ -109,7 +109,7 @@ io.on('connection', socket => {
     socket.on('drawn card option', (lobbyCode, isDrawnCardPlayed, optionalColor) => {
         if(isTurn(lobbyCode, socket.id)) {
             if(isDrawnCardPlayed) {
-                playCardHandler(socket, lobbyCode, gameStates[lobbyCode].playersCards[socket.id].length - 1, optionalColor)
+                playDrawnCard(socket, lobbyCode, gameStates[lobbyCode].playersCards[socket.id].length - 1, optionalColor)
             }
             else {
                 if(gameStates[lobbyCode].penalty > 0) {
@@ -208,9 +208,9 @@ function cardEffect(lobbyCode) {
     }
 }
 
-function playCardHandler(someSocket, lobbyCode, i, optionalColor) {
+function playDrawnCard(someSocket, lobbyCode, i, optionalColor) {
     if(isTurn(lobbyCode, someSocket.id)) {
-        if(isMovePossible(lobbyCode, gameStates[lobbyCode].playersCards[someSocket.id][i])) {
+        if(isMovePossible(lobbyCode, gameStates[lobbyCode].playersCards[someSocket.id][i], true)) {
             if(gameStates[lobbyCode].playersCards[someSocket.id][i].symbol == "wild" || gameStates[lobbyCode].playersCards[someSocket.id][i].symbol == "wilddraw") gameStates[lobbyCode].playersCards[someSocket.id][i].color = optionalColor
             gameStates[lobbyCode].discardPile.push(gameStates[lobbyCode].playersCards[someSocket.id][i])
             gameStates[lobbyCode].playersCards[someSocket.id].splice(i, 1)
@@ -258,10 +258,12 @@ function nextTurn(lobbyCode) {
 
 function isMovePossible(lobbyCode, card, isCardDrawn) {
     const state = gameStates[lobbyCode]
-    if(card.symbol == state.discardPile[state.discardPile.length - 1].symbol) {
+    const card2 = state.discardPile[state.discardPile.length - 1]
+    if(card.symbol == card2.symbol) {
         if(state.penalty > 0) {
             if(isCardDrawn) return true
             if(state.specialRules.stackingCards) return true
+            if(state.specialRules.jumpIn && card.color == card2.color) return true 
             return false
         }
     }
