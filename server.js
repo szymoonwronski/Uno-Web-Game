@@ -11,6 +11,7 @@ const server = http.createServer(app)
 const io = new Server(server)
 
 const defaultState = require('./defaultState.json')
+const { keyBy } = require('lodash')
 
 const PORT = process.env.PORT || 5555
 const lobbyCodeLength = 8
@@ -140,13 +141,13 @@ io.on('connection', socket => {
 
     socket.on('play card', (lobbyCode, i, optionalColor) => {
         if(isTurn(lobbyCode, socket.id) || gameStates[lobbyCode].specialRules.jumpIn) {
-            if(isMovePossible(lobbyCode, gameStates[lobbyCode].playersCards[socket.id][i])) {
+            if(isMovePossible(lobbyCode, gameStates[lobbyCode].playersCards[socket.id][i], gameStates[lobbyCode].turn == socket.id ? false : true)) {
                 if(gameStates[lobbyCode].playersCards[socket.id][i].symbol == "wild" || gameStates[lobbyCode].playersCards[socket.id][i].symbol == "wilddraw") gameStates[lobbyCode].playersCards[socket.id][i].color = optionalColor
                 gameStates[lobbyCode].discardPile.push(gameStates[lobbyCode].playersCards[socket.id][i])
                 gameStates[lobbyCode].playersCards[socket.id].splice(i, 1)
-                socket.emit('cards update', gameStates[lobbyCode].playersCards[socket.id], null)
-                cardEffect(lobbyCode)
                 if(gameStates[lobbyCode].specialRules.jumpIn) gameStates[lobbyCode].turn = socket.id
+                cardEffect(lobbyCode)
+                socket.emit('cards update', gameStates[lobbyCode].playersCards[socket.id], null)
                 nextTurn(lobbyCode)
                 gameUpdate(lobbyCode)
                 if(gameStates[lobbyCode].playersCards[socket.id].length == 0) {
@@ -200,21 +201,23 @@ io.on('connection', socket => {
     socket.on('disconnect', () => console.log(`disconnected: ${socket.id}`))
 })
 
-function isMovePossible(lobbyCode, card) {
+function isMovePossible(lobbyCode, card, isItJumpIn) {
     const state = gameStates[lobbyCode]
     const card2 = state.discardPile[state.discardPile.length - 1]
 
+    if(isItJumpIn && (card.symbol != card2.symbol || card.color != card2.color)) return false
     if(state.drawnCard !== card && state.isCardDrawn) return false
-    if(card.symbol == card2.symbol || card.color == card2.color) {
-        if(state.specialRules.jumpIn && (card.color == card2.color && card.symbol == card2.symbol)) return true
+    if(card.symbol == card2.symbol) {
+        if(state.specialRules.jumpIn && card.color == card2.color) return true
         if(state.penalty > 0) {
             if(state.isCardDrawn) return true
             if(state.specialRules.stackingCards) return true
             return false
         }
-        if(card.symbol == "wild" || card.symbol == "wilddraw") return true
         return true
     }
+    if(card.color == card2.color) return true
+    if(state.penalty == 0 && (card.symbol == "wild" || card.symbol == "wilddraw")) return true
     return false
 }
 
@@ -229,7 +232,26 @@ function cardEffect(lobbyCode) {
             break
         case 'draw':
             gameStates[lobbyCode].penalty = parseInt(gameStates[lobbyCode].penalty) + 2
-            break
+    }
+    if(gameStates[lobbyCode].specialRules.sevenZero) {
+        switch(card.symbol) {
+            case '7':
+                break
+            case '0':
+                const x = Object.values(gameStates[lobbyCode].playersCards)
+                const y = [...x]
+                if(gameStates[lobbyCode].direction == 1) {
+                    y.unshift(y.pop())
+                }
+                else {
+                    y.push(y.shift())
+
+                }
+                let i = 0
+                Object.keys(gameStates[lobbyCode].playersCards).forEach(key => {
+                    gameStates[lobbyCode].playersCards[key] = y[i++]
+                })
+        }
     }
 }
 
@@ -239,9 +261,9 @@ function playDrawnCard(someSocket, lobbyCode, optionalColor) {
             if(gameStates[lobbyCode].drawnCard.symbol == "wild" || gameStates[lobbyCode].drawnCard.symbol == "wilddraw") gameStates[lobbyCode].drawnCard.color = optionalColor
             gameStates[lobbyCode].discardPile.push(gameStates[lobbyCode].drawnCard)
             gameStates[lobbyCode].drawnCard = {}
+            cardEffect(lobbyCode)
             someSocket.emit('cards update', gameStates[lobbyCode].playersCards[someSocket.id], null)
             gameStates[lobbyCode].isCardDrawn = false
-            cardEffect(lobbyCode)
             nextTurn(lobbyCode)
             gameUpdate(lobbyCode)
             if(gameStates[lobbyCode].playersCards[someSocket.id].length == 0) {
