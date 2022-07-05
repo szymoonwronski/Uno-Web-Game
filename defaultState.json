@@ -5,6 +5,14 @@
     "nicknames": {},
     "direction": "1",
     "penalty": "0",
+    "drawnCard": {},
+    "isCardDrawn": "false",
+    "playersUnos": {},
+    "specialRules": {
+        "sevenZero": false,
+        "stackingCards": false,
+        "jumpIn": false
+    },
     "playersCards": {},
     "discardPile": [],
     "deckCards": [
@@ -440,11 +448,5 @@
             "color": "",
             "symbol": "wilddraw"
         }
-    ],
-    "playersUnos": {},
-    "specialRules": {
-        "sevenZero": false,
-        "stackingCards": false,
-        "jumpIn": false
-    }
+    ]
 }

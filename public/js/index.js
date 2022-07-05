@@ -126,11 +126,12 @@ socket.on('game started', (nicks, settings, nickId)  => {
     }
 })
 
-socket.on('cards update', (cards, isDrawnCardPossibleToPlay) => {
+socket.on('cards update', (cards, drawnCard) => {
     myCards = cards
-    if(isDrawnCardPossibleToPlay) {
+    if(drawnCard !== null) {
         playCardButton.style.display = 'inline'
         keepCardButton.style.display = 'inline'
+        myCards.push(drawnCard)
     }
     else {
         keepCardButton.style.display = 'none'
