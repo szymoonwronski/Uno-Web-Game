@@ -85,8 +85,8 @@ io.on('connection', socket => {
             if(gameStates[lobbyCode].deckCards.length) {
                 gameStates[lobbyCode].playersCards[socket.id].push(gameStates[lobbyCode].deckCards.shift())
             }
-            socket.emit('cards update', gameStates[lobbyCode].playersCards[socket.id], isMovePossible(gameStates[lobbyCode].playersCards[socket.id][gameStates[lobbyCode].playersCards[socket.id].length - 1]))
-            if(!isMovePossible(gameStates[lobbyCode].playersCards[socket.id][gameStates[lobbyCode].playersCards[socket.id].length - 1])) {
+            socket.emit('cards update', gameStates[lobbyCode].playersCards[socket.id], isMovePossible(lobbyCode, gameStates[lobbyCode].playersCards[socket.id][gameStates[lobbyCode].playersCards[socket.id].length - 1]))
+            if(!isMovePossible(lobbyCode, gameStates[lobbyCode].playersCards[socket.id][gameStates[lobbyCode].playersCards[socket.id].length - 1])) {
                 if(gameStates[lobbyCode].penalty > 0) {
                     while(--gameStates[lobbyCode].penalty > 0) {
                         if(!gameStates[lobbyCode].deckCards.length) {
@@ -134,7 +134,7 @@ io.on('connection', socket => {
 
     socket.on('play card', (lobbyCode, i, optionalColor) => {
         if(isTurn(lobbyCode, socket.id)) {
-            if(isMovePossible(gameStates[lobbyCode].playersCards[socket.id][i])) {
+            if(isMovePossible(lobbyCode, gameStates[lobbyCode].playersCards[socket.id][i])) {
                 if(gameStates[lobbyCode].playersCards[socket.id][i].symbol == "wild" || gameStates[lobbyCode].playersCards[socket.id][i].symbol == "wilddraw") gameStates[lobbyCode].playersCards[socket.id][i].color = optionalColor
                 gameStates[lobbyCode].discardPile.push(gameStates[lobbyCode].playersCards[socket.id][i])
                 gameStates[lobbyCode].playersCards[socket.id].splice(i, 1)
@@ -210,7 +210,7 @@ function cardEffect(lobbyCode) {
 
 function playCardHandler(someSocket, lobbyCode, i, optionalColor) {
     if(isTurn(lobbyCode, someSocket.id)) {
-        if(isMovePossible(gameStates[lobbyCode].playersCards[someSocket.id][i])) {
+        if(isMovePossible(lobbyCode, gameStates[lobbyCode].playersCards[someSocket.id][i])) {
             if(gameStates[lobbyCode].playersCards[someSocket.id][i].symbol == "wild" || gameStates[lobbyCode].playersCards[someSocket.id][i].symbol == "wilddraw") gameStates[lobbyCode].playersCards[someSocket.id][i].color = optionalColor
             gameStates[lobbyCode].discardPile.push(gameStates[lobbyCode].playersCards[someSocket.id][i])
             gameStates[lobbyCode].playersCards[someSocket.id].splice(i, 1)
@@ -256,7 +256,15 @@ function nextTurn(lobbyCode) {
     gameStates[lobbyCode].turn = ids[mod(ids.indexOf(gameStates[lobbyCode].turn) + Number(gameStates[lobbyCode].direction), gameStates[lobbyCode].numberOfPlayers)]
 }
 
-function isMovePossible(card) {
+function isMovePossible(lobbyCode, card, isCardDrawn) {
+    const state = gameStates[lobbyCode]
+    if(card.symbol == state.discardPile[state.discardPile.length - 1].symbol) {
+        if(state.penalty > 0) {
+            if(isCardDrawn) return true
+            if(state.specialRules.stackingCards) return true
+            return false
+        }
+    }
     return true
 }
 
