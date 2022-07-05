@@ -212,9 +212,9 @@ function isMovePossible(lobbyCode, card) {
             if(state.specialRules.stackingCards) return true
             return false
         }
+        if(card.symbol == "wild" || card.symbol == "wilddraw") return true
         return true
     }
-    if(state.penalty == 0 && (card.symbol == "wild" || card.symbol == "wilddraw")) return true
     return false
 }
 
