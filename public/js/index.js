@@ -105,7 +105,7 @@ callUnoButton.onclick = () => {
 }
 
 drawCardButton.onclick = () => {
-    socket.emit('draw card', lobbyCode)
+    if(!isLastCardDrawn) socket.emit('draw card', lobbyCode)
 }
 
 createLobbyButton.onclick = () => {

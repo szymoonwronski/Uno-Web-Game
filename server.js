@@ -77,7 +77,7 @@ io.on('connection', socket => {
     })
 
     socket.on('draw card', lobbyCode => {
-        if(isTurn(lobbyCode, socket.id)) {
+        if(isTurn(lobbyCode, socket.id) && !gameStates[lobbyCode].isCardDrawn) {
             if(!gameStates[lobbyCode].deckCards.length) {
                 for(let i = 0; i < gameStates[lobbyCode].discardPile.length - 1; i++) {
                     gameStates[lobbyCode].deckCards.push(gameStates[lobbyCode].discardPile.shift())
