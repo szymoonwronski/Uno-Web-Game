@@ -228,7 +228,8 @@ function cardEffect(lobbyCode) {
             nextTurn(lobbyCode)
             break
         case 'reverse':
-            gameStates[lobbyCode].direction = gameStates[lobbyCode].direction == 1 ? -1 : 1 
+            if(io.sockets.adapter.rooms.get(lobbyCode).size == 2) nextTurn(lobbyCode)
+            else gameStates[lobbyCode].direction = gameStates[lobbyCode].direction == 1 ? -1 : 1 
             break
         case 'draw':
             gameStates[lobbyCode].penalty = parseInt(gameStates[lobbyCode].penalty) + 2

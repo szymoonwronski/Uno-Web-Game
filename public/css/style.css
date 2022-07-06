@@ -218,6 +218,10 @@ input[type="checkbox"]:checked::before{
     display: none;
 }
 
+.choose-color {
+    display: none;
+}
+
 #post-game {
     display: none;
 }
