@@ -309,5 +309,5 @@ input[type="checkbox"]:checked::before{
 
 .discard-pile-card {
     order: -1;
-    margin: 100px 20px 40px 20px;
+    margin: 100px 50px 40px 50px;
 }
