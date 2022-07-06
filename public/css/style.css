@@ -1,4 +1,6 @@
 body {
+    height: 100vh;
+    width: 100vw;
     padding: 0;
     margin: 0;
     color: white;
@@ -10,7 +12,7 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     align-content: center;
 }
@@ -121,7 +123,6 @@ input[type="button"]:active {
 }
 
 .panel-header {
-    flex-grow: 1;
     align-self: stretch;
     text-align: center;
     font-size: 50px;
@@ -212,25 +213,101 @@ input[type="checkbox"]:checked::before{
 
 #main-game {
     display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+    height: 100%;
+}
+
+#main-game-left-panel {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 5px 60px 5px;
+}
+
+#game-container {
+    display: flex;
+    flex-direction: column;
+    flex: 4;
+}
+
+#main-game-right-panel {
+    padding: 40px 5px;
+    border-left: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 1;
+    row-gap: 15px
+}
+
+#main-game-header {
+    font-weight: bold;
+    margin-bottom: 60px;
+}
+
+.players-list-component {
+    font-size: 20px;
 }
 
 .drawn-card-option {
     display: none;
 }
 
+#draw-card-button {
+    padding: 8px
+}
+
 .choose-color {
     display: none;
 }
 
-#post-game {
+#drawn-card-options-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.drawn-card {
+    order: -1;
+    margin: 10px;
+}
+
+#drawn-card-options {
+    display: flex;
+    column-gap: 30px;
+}
+
+#choose-color-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+#post-game, #play-again-button {
     display: none;
 }
 
-#call-uno-button, #challenge-uno-button, #play-again-button {
+#call-uno-button, #challenge-uno-button {
     display: none;
+    margin-top: auto;
+    margin-bottom: 10;
 }
 
 .card {
-    width: 40px;
-    height: 60px;
+    width: 60px;
+    height: 90px;
+    margin: 1px
+}
+
+#cards-container {
+    margin: 5px;
+}
+
+.discard-pile-card {
+    order: -1;
+    margin: 100px 20px 40px 20px;
 }

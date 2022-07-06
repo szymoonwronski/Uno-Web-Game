@@ -2,6 +2,8 @@ const socket = io()
 
 const divPreGame = document.getElementById('pre-game')
 const divMainGame = document.getElementById('main-game')
+const divMainGameLeftPanel = document.getElementById('main-game-left-panel')
+const divMainGameRightPanel = document.getElementById('main-game-right-panel')
 const divPostGame = document.getElementById('post-game')
 const divScreen1 = document.getElementById('screen1')
 const divScreen2 = document.getElementById('screen2')
@@ -20,6 +22,9 @@ const showLobbyCode = document.getElementById('show-lobby-code')
 const copyLobbyCodeButton = document.getElementById('copy-lobby-code-button')
 
 //main-game
+const gameContainer = document.getElementById('game-container')
+const drawnCardOptionsContainer = document.getElementById('drawn-card-options-container')
+const cardsContainer = document.getElementById('cards-container')
 const drawCardButton = document.getElementById('draw-card-button')
 const callUnoButton = document.getElementById('call-uno-button')
 const challengeUnoButton = document.getElementById('challenge-uno-button')
@@ -29,7 +34,6 @@ const chooseColorRedButton = document.getElementById('choose-color-red')
 const chooseColorGreenButton = document.getElementById('choose-color-green')
 const chooseColorYellowButton = document.getElementById('choose-color-yellow')
 const chooseColorBlueButton = document.getElementById('choose-color-blue')
-
 
 //post-game
 const playAgainButton = document.getElementById('play-again-button')
@@ -143,7 +147,7 @@ socket.on('update players list', nicks => {
 socket.on('game started', (nicks, settings, nickId)  => {
     divPreGame.style.display = "none"
     divPostGame.style.display = 'none'
-    divMainGame.style.display = "block"
+    divMainGame.style.display = "flex"
     if(!Object.is(settings, undefined)) gameSettings = settings
     if(!Object.is(nicks, undefined)) {
         nicknames = nicks
@@ -151,15 +155,12 @@ socket.on('game started', (nicks, settings, nickId)  => {
         nicknames.forEach(() => {
             let span = document.createElement('span')
             span.classList.add('players-list-component')
-            divMainGame.appendChild(span)
+            divMainGameRightPanel.appendChild(span)
         })
     }
 })
 
 socket.on('cards update', (cards, drawnCard) => {
-    console.log(myCards);
-    console.log(drawnCard);
-    console.log(isLastCardDrawn);
     myCards = cards
     isLastCardDrawn = drawnCard !== null ? true : false
     if(drawnCard !== null) {
@@ -179,7 +180,7 @@ socket.on('game update', info => {
     challengeUnoButton.style.display = 'none'
     for(let i = 0; i < gameInfo.playersUnos.length; i++) {
         if(gameInfo.playersUnos[i] == true && i != nicknameId) {
-            challengeUnoButton.style.display = 'block'
+            challengeUnoButton.style.display = 'flex'
             challengeUnoButton.onclick = () => {
                 socket.emit('challenge uno', lobbyCode, i)
             }
@@ -187,7 +188,7 @@ socket.on('game update', info => {
     }
 
     callUnoButton.style.display = 'none'
-    if(myCards.length == 1 && gameInfo.playersUnos[nicknameId] == true) callUnoButton.style.display = 'block'
+    if(myCards.length == 1 && gameInfo.playersUnos[nicknameId] == true) callUnoButton.style.display = 'flex'
 
     showEverything()
 })
@@ -215,15 +216,17 @@ function showCards() {
     arr.forEach(item => item.style.display = 'none')
 
     let discardPileCard = document.createElement("img");
-    discardPileCard.src = `/images/cards/${gameInfo.discardPile.color}${gameInfo.discardPile.symbol}.png`;
-    discardPileCard.style.width = "40px"
-    discardPileCard.style.height = "60px"
-    discardPileCard.classList.add('card')
-    discardPileCard.classList.add('temporary-for-game')
-    divMainGame.appendChild(discardPileCard);
+    discardPileCard.src = `/images/cards/${gameInfo.discardPile.color}${gameInfo.discardPile.symbol}.png`
+    discardPileCard.classList.add('temporary-for-game', 'card', 'discard-pile-card')
+    gameContainer.appendChild(discardPileCard);
 
     for(let i = 0; i < myCards.length; i++) {
         let btn = document.createElement('input')
+        cardsContainer.appendChild(btn)
+        if(isLastCardDrawn && i == myCards.length - 1) {
+            drawnCardOptionsContainer.appendChild(btn)
+            btn.classList.add('drawn-card')
+        }
         btn.type = 'image'
         btn.classList.add('card')
         btn.classList.add('temporary-for-game')
@@ -232,22 +235,24 @@ function showCards() {
         btn.onclick = () => {
             if(isMovePossible(myCards[i])) {
                 if(myCards[i].symbol == 'wild' || myCards[i].symbol == 'wilddraw') {
-                    const arr = Array.from(document.getElementsByClassName('choose-color'))
-                    arr.forEach(item => item.style.display = 'inline')
-                    chooseColorRedButton.onclick = () => {
-                        socket.emit('play card', lobbyCode, i, 'red')
-                    }
-                    
-                    chooseColorGreenButton.onclick = () => {
-                        socket.emit('play card', lobbyCode, i, 'green')
-                    }
-                    
-                    chooseColorYellowButton.onclick = () => {
-                        socket.emit('play card', lobbyCode, i, 'yellow')
-                    }
-                    
-                    chooseColorBlueButton.onclick = () => {
-                        socket.emit('play card', lobbyCode, i, 'blue')
+                    if(nicknameId == gameInfo.turn || gameSettings.jumpIn) {
+                        const arr = Array.from(document.getElementsByClassName('choose-color'))
+                        arr.forEach(item => item.style.display = 'inline')
+                        chooseColorRedButton.onclick = () => {
+                            socket.emit('play card', lobbyCode, i, 'red')
+                        }
+                        
+                        chooseColorGreenButton.onclick = () => {
+                            socket.emit('play card', lobbyCode, i, 'green')
+                        }
+                        
+                        chooseColorYellowButton.onclick = () => {
+                            socket.emit('play card', lobbyCode, i, 'yellow')
+                        }
+                        
+                        chooseColorBlueButton.onclick = () => {
+                            socket.emit('play card', lobbyCode, i, 'blue')
+                        }
                     }
                 }
                 else if(gameSettings.sevenZero && myCards[i].symbol == '7') {
@@ -267,16 +272,20 @@ function showCards() {
                 else socket.emit('play card', lobbyCode, i)
             }
         }
-        divMainGame.appendChild(btn)
     }
 }
 
 function showPlayers() {
     for(let i = 0; i < nicknames.length; i++) {
         let span = Array.from(document.getElementsByClassName('players-list-component'))[i]
-        span.innerHTML = `${nicknames[i]}: ${gameInfo.numberOfPlayersCards[i]}`
-        if(gameInfo.turn == i) span.style.fontWeight = 'bold'
-        else span.style.fontWeight = 'normal'
+        span.innerHTML = gameInfo.numberOfPlayersCards[i] > 1 ? `${nicknames[i]}: ${gameInfo.numberOfPlayersCards[i]} cards` : `${nicknames[i]}: ${gameInfo.numberOfPlayersCards[i]} card`
+        if(gameInfo.turn == i) {
+            span.innerHTML = '-> ' + span.innerHTML;
+            span.style.fontWeight = '900'
+        }
+        else {
+            span.style.fontWeight = 'normal'
+        }
     }
 }
 
@@ -295,7 +304,7 @@ function isMovePossible(card) {
         return true
     }
     if(!gameInfo.isPenalty) {
-        if(card.color == card2.color) return true
+        if(card.color == card2.color || card2.color == '') return true
         if(card.symbol == "wild" || card.symbol == "wilddraw") return true
     }
     return false

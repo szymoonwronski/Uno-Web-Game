@@ -224,7 +224,7 @@ function isMovePossible(lobbyCode, card, isItJumpIn) {
         return true
     }
     if(state.penalty == 0) {
-        if(card.color == card2.color) return true
+        if(card.color == card2.color || card2.color == '') return true
         if(card.symbol == "wild" || card.symbol == "wilddraw") return true
     }
     return false
