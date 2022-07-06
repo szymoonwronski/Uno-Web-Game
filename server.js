@@ -216,8 +216,10 @@ function isMovePossible(lobbyCode, card, isItJumpIn) {
         }
         return true
     }
-    if(card.color == card2.color) return true
-    if(state.penalty == 0 && (card.symbol == "wild" || card.symbol == "wilddraw")) return true
+    if(state.penalty == 0) {
+        if(card.color == card2.color) return true
+        if(card.symbol == "wild" || card.symbol == "wilddraw") return true
+    }
     return false
 }
 
@@ -233,6 +235,9 @@ function cardEffect(lobbyCode) {
             break
         case 'draw':
             gameStates[lobbyCode].penalty = parseInt(gameStates[lobbyCode].penalty) + 2
+            break
+        case 'wilddraw':
+            gameStates[lobbyCode].penalty = parseInt(gameStates[lobbyCode].penalty) + 4
     }
     if(gameStates[lobbyCode].specialRules.sevenZero) {
         switch(card.symbol) {
