@@ -81,6 +81,7 @@ io.on('connection', socket => {
             if(!gameStates[lobbyCode].deckCards.length) {
                 for(let i = 0; i < gameStates[lobbyCode].discardPile.length - 1; i++) {
                     gameStates[lobbyCode].deckCards.push(gameStates[lobbyCode].discardPile.shift())
+                    gameStates[lobbyCode].deckCards = _.shuffle(gameStates[lobbyCode].deckCards)
                 }
             }
             if(gameStates[lobbyCode].deckCards.length) {
@@ -95,6 +96,7 @@ io.on('connection', socket => {
                         if(!gameStates[lobbyCode].deckCards.length) {
                             for(let i = 0; i < gameStates[lobbyCode].discardPile.length - 1; i++) {
                                 gameStates[lobbyCode].deckCards.push(gameStates[lobbyCode].discardPile.shift())
+                                gameStates[lobbyCode].deckCards = _.shuffle(gameStates[lobbyCode].deckCards)
                             }
                         }
                         if(gameStates[lobbyCode].deckCards.length) {
@@ -124,6 +126,7 @@ io.on('connection', socket => {
                         if(!gameStates[lobbyCode].deckCards.length) {
                             for(let i = 0; i < gameStates[lobbyCode].discardPile.length - 1; i++) {
                                 gameStates[lobbyCode].deckCards.push(gameStates[lobbyCode].discardPile.shift())
+                                gameStates[lobbyCode].deckCards = _.shuffle(gameStates[lobbyCode].deckCards)
                             }
                         }
                         if(gameStates[lobbyCode].deckCards.length) {
@@ -173,6 +176,7 @@ io.on('connection', socket => {
                 if(!gameStates[lobbyCode].deckCards.length) {
                     for(let k = 0; k < gameStates[lobbyCode].discardPile.length - 1; k++) {
                         gameStates[lobbyCode].deckCards.push(gameStates[lobbyCode].discardPile.shift())
+                        gameStates[lobbyCode].deckCards = _.shuffle(gameStates[lobbyCode].deckCards)
                     }
                     if(gameStates[lobbyCode].deckCards.length) {
                         gameStates[lobbyCode].playersCards[soc].push(gameStates[lobbyCode].deckCards.shift())
@@ -249,15 +253,10 @@ function cardEffect(lobbyCode, socketIdToSwapWith) {
     if(gameStates[lobbyCode].specialRules.sevenZero) {
         switch(card.symbol) {
             case '7':
-                console.log(socketIdToSwapWith);
-                let a = Object.values(gameStates[lobbyCode].playersCards[gameStates[lobbyCode].turn])
-                let b = Object.values(gameStates[lobbyCode].playersCards[socketIdToSwapWith])
-                console.log(gameStates[lobbyCode].playersCards[gameStates[lobbyCode].turn]);
-                console.log(gameStates[lobbyCode].playersCards[socketIdToSwapWith]);
+                const a = Object.values(gameStates[lobbyCode].playersCards[gameStates[lobbyCode].turn])
+                const b = Object.values(gameStates[lobbyCode].playersCards[socketIdToSwapWith])
                 gameStates[lobbyCode].playersCards[gameStates[lobbyCode].turn] = b
                 gameStates[lobbyCode].playersCards[socketIdToSwapWith] = a
-                console.log(gameStates[lobbyCode].playersCards[gameStates[lobbyCode].turn]);
-                console.log(gameStates[lobbyCode].playersCards[socketIdToSwapWith]);
                 break
             case '0':
                 const x = Object.values(gameStates[lobbyCode].playersCards)

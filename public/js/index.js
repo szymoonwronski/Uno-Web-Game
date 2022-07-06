@@ -71,7 +71,18 @@ playCardButton.onclick = () => {
         }
     }
     else if(gameSettings.sevenZero && myCards[myCards.length - 1].symbol == '7') {
-        socket.emit('drawn card option', lobbyCode, true, null, 0)
+        for(let coun = 0; coun < nicknames.length; coun++) {
+            if(coun != nicknameId) {
+                let btn2 = document.createElement('input')
+                btn2.type = 'button'
+                btn2.value = nicknames[coun]
+                btn2.classList.add('special-seven-choose-player')
+                gameContainer.appendChild(btn2)
+                btn2.onclick = () => {
+                    socket.emit('drawn card option', lobbyCode, true, null, coun)
+                }
+            }
+        }
     }
     else socket.emit('drawn card option', lobbyCode, true)
 }
@@ -214,6 +225,8 @@ function showCards() {
     myCardsButtons.forEach(card => card.remove())
     const arr = Array.from(document.getElementsByClassName('choose-color'))
     arr.forEach(item => item.style.display = 'none')
+    const arr2 = Array.from(document.getElementsByClassName('special-seven-choose-player'))
+    arr2.forEach(item => item.remove())
 
     let discardPileCard = document.createElement("img");
     discardPileCard.src = `/images/cards/${gameInfo.discardPile.color}${gameInfo.discardPile.symbol}.png`
@@ -230,6 +243,7 @@ function showCards() {
         btn.type = 'image'
         btn.classList.add('card')
         btn.classList.add('temporary-for-game')
+        if(myCards[i].symbol == 'wild' || myCards[i] == 'wilddraw') myCards[i].color = ''
         const fileName = myCards[i].color + myCards[i].symbol
         btn.src = `/images/cards/${fileName}.png`
         btn.onclick = () => {
@@ -256,18 +270,18 @@ function showCards() {
                     }
                 }
                 else if(gameSettings.sevenZero && myCards[i].symbol == '7') {
-                    let j = 0
-                    nicknames.forEach(nick => {
-                        let btn2 = document.createElement('input')
-                        btn2.type = 'button'
-                        btn2.value = nick
-                        btn2.classList.add('special-seven-choose-player')
-                        divMainGame.appendChild(btn2)
-                        btn2.onclick = () => {
-                            socket.emit('play card', lobbyCode, i, null, j)
+                    for(let coun = 0; coun < nicknames.length; coun++) {
+                        if(coun != nicknameId) {
+                            let btn2 = document.createElement('input')
+                            btn2.type = 'button'
+                            btn2.value = nicknames[coun]
+                            btn2.classList.add('special-seven-choose-player')
+                            gameContainer.appendChild(btn2)
+                            btn2.onclick = () => {
+                                socket.emit('play card', lobbyCode, i, null, coun)
+                            }
                         }
-                        j++
-                    })
+                    }
                 }
                 else socket.emit('play card', lobbyCode, i)
             }
