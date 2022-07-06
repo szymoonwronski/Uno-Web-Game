@@ -66,6 +66,9 @@ playCardButton.onclick = () => {
             socket.emit('drawn card option', lobbyCode, true, 'blue')
         }
     }
+    else if(gameSettings.sevenZero && myCards[myCards.length - 1].symbol == '7') {
+        socket.emit('drawn card option', lobbyCode, true, null, 0)
+    }
     else socket.emit('drawn card option', lobbyCode, true)
 }
 
@@ -154,6 +157,9 @@ socket.on('game started', (nicks, settings, nickId)  => {
 })
 
 socket.on('cards update', (cards, drawnCard) => {
+    console.log(myCards);
+    console.log(drawnCard);
+    console.log(isLastCardDrawn);
     myCards = cards
     isLastCardDrawn = drawnCard !== null ? true : false
     if(drawnCard !== null) {
@@ -244,6 +250,20 @@ function showCards() {
                         socket.emit('play card', lobbyCode, i, 'blue')
                     }
                 }
+                else if(gameSettings.sevenZero && myCards[i].symbol == '7') {
+                    let j = 0
+                    nicknames.forEach(nick => {
+                        let btn2 = document.createElement('input')
+                        btn2.type = 'button'
+                        btn2.value = nick
+                        btn2.classList.add('special-seven-choose-player')
+                        divMainGame.appendChild(btn2)
+                        btn2.onclick = () => {
+                            socket.emit('play card', lobbyCode, i, null, j)
+                        }
+                        j++
+                    })
+                }
                 else socket.emit('play card', lobbyCode, i)
             }
         }
@@ -274,7 +294,9 @@ function isMovePossible(card) {
         }
         return true
     }
-    if(card.color == card2.color) return true
-    if(!gameInfo.isPenalty && (card.symbol == "wild" || card.symbol == "wilddraw")) return true
+    if(!gameInfo.isPenalty) {
+        if(card.color == card2.color) return true
+        if(card.symbol == "wild" || card.symbol == "wilddraw") return true
+    }
     return false
 }
