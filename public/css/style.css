@@ -235,13 +235,13 @@ input[type="checkbox"]:checked::before{
 }
 
 #main-game-right-panel {
-    padding: 40px 5px;
+    padding: 40px 10px;
     border-left: 3px solid black;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     flex: 1;
-    row-gap: 15px
+    row-gap: 15px;
 }
 
 #main-game-header {
@@ -251,6 +251,7 @@ input[type="checkbox"]:checked::before{
 
 .players-list-component {
     font-size: 20px;
+    word-break: break-all;
 }
 
 .drawn-card-option {
