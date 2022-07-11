@@ -253,10 +253,12 @@ function cardEffect(lobbyCode, socketIdToSwapWith) {
     if(gameStates[lobbyCode].specialRules.sevenZero) {
         switch(card.symbol) {
             case '7':
-                const a = Object.values(gameStates[lobbyCode].playersCards[gameStates[lobbyCode].turn])
-                const b = Object.values(gameStates[lobbyCode].playersCards[socketIdToSwapWith])
-                gameStates[lobbyCode].playersCards[gameStates[lobbyCode].turn] = b
-                gameStates[lobbyCode].playersCards[socketIdToSwapWith] = a
+                if(socketIdToSwapWith != undefined) {
+                    const a = Object.values(gameStates[lobbyCode].playersCards[gameStates[lobbyCode].turn])
+                    const b = Object.values(gameStates[lobbyCode].playersCards[socketIdToSwapWith])
+                    gameStates[lobbyCode].playersCards[gameStates[lobbyCode].turn] = b
+                    gameStates[lobbyCode].playersCards[socketIdToSwapWith] = a
+                }
                 break
             case '0':
                 const x = Object.values(gameStates[lobbyCode].playersCards)

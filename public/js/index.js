@@ -70,7 +70,7 @@ playCardButton.onclick = () => {
             socket.emit('drawn card option', lobbyCode, true, 'blue')
         }
     }
-    else if(gameSettings.sevenZero && myCards[myCards.length - 1].symbol == '7') {
+    else if(gameSettings.sevenZero && myCards[myCards.length - 1].symbol == '7' && numberOfPlayersCards[nicknameId] != 1) {
         for(let coun = 0; coun < nicknames.length; coun++) {
             if(coun != nicknameId) {
                 let btn2 = document.createElement('input')
@@ -269,7 +269,7 @@ function showCards() {
                         }
                     }
                 }
-                else if(gameSettings.sevenZero && myCards[i].symbol == '7') {
+                else if(gameSettings.sevenZero && myCards[i].symbol == '7' && numberOfPlayersCards[nicknameId] != 1) {
                     for(let coun = 0; coun < nicknames.length; coun++) {
                         if(coun != nicknameId) {
                             let btn2 = document.createElement('input')
