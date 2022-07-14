@@ -92,7 +92,11 @@ keepCardButton.onclick = () => {
 }
 
 copyLobbyCodeButton.onclick = () => {
-    navigator.clipboard.writeText(showLobbyCode.innerHTML);
+    navigator.clipboard.writeText(showLobbyCode.innerHTML)
+    copyLobbyCodeButton.innerHTML = 'done'
+    setTimeout(() => {
+        copyLobbyCodeButton.innerHTML = 'content_copy'
+    }, 1000)
 }
 
 playAgainButton.onclick = () => {
