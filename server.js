@@ -14,7 +14,7 @@ const defaultState = require('./defaultState.json')
 const { keyBy } = require('lodash')
 
 const PORT = process.env.PORT || 5555
-const lobbyCodeLength = 8
+const lobbyCodeLength = 3
 const maxNumberOfPlayers = 8
 
 let gameStates = {}
