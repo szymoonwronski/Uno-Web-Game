@@ -15,7 +15,7 @@ const { keyBy } = require('lodash')
 
 const PORT = process.env.PORT || 5555
 const lobbyCodeLength = 3
-const maxNumberOfPlayers = 8
+const maxNumberOfPlayers = 10
 
 let gameStates = {}
 
